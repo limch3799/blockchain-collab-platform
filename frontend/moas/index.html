@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <script type="module">
+      // Web3Auth Bundler Issues
+      import { Buffer } from "buffer";
+      import process from "process";
+      window.Buffer = Buffer;
+      window.process = process;
+    </script>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/src/assets/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MOAS - 당신을 위한 프로젝트 협업 매칭 서비스</title>
+
+    <!-- Toss Payments SDK -->
+    <script src="https://js.tosspayments.com/v1"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

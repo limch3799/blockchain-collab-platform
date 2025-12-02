@@ -1,0 +1,97 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend/moas
+    container_name: moas-backend-prod
+    ports:
+      - "8081:8080"
+    env_file:
+      - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_REDIS_HOST=moas-redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - /var/jenkins_home/workspace/moas_release/backend-logs:/logs
+    depends_on:
+      - redis
+    networks:
+      - moas-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend/moas
+      args:
+        - VITE_API_URL=http://K13S401.p.ssafy.io:8081
+        - VITE_TOSS_CLIENT_KEY=${VITE_TOSS_CLIENT_KEY}
+        - VITE_WEB3_AUTH_KEY=${VITE_WEB3_AUTH_KEY}
+    container_name: moas-frontend-prod
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - moas-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: moas-redis
+    ports:
+      - "127.0.0.1:6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis-data:/data
+    networks:
+      - moas-network
+    restart: unless-stopped
+    env_file:
+      - .env
+
+  loki:
+    image: grafana/loki:latest
+    container_name: moas-loki
+    ports:
+      - "127.0.0.1:3100:3100"
+    networks:
+      - moas-network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: moas-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD:-admin}
+    volumes:
+      - grafana-data:/var/lib/grafana
+    depends_on:
+      - loki
+    networks:
+      - moas-network
+    restart: unless-stopped
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: moas-promtail
+    volumes:
+      - /var/jenkins_home/workspace/moas_release/promtail-config.yml:/tmp/promtail-config.yml:ro
+      - /var/jenkins_home/workspace/moas_release/backend-logs:/logs:ro
+    command: ["-config.file=/tmp/promtail-config.yml", "-config.expand-env=true"]
+    depends_on:
+      - loki
+      - backend
+    networks:
+      - moas-network
+    restart: unless-stopped
+
+networks:
+  moas-network:
+
+volumes:
+  redis-data:
+  grafana-data:

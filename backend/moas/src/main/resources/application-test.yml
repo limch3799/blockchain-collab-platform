@@ -1,0 +1,100 @@
+spring:
+  # =======================
+  # DataSource (H2 메모리)
+  # =======================
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 1
+      connection-timeout: 30000
+
+  # =======================
+  # JPA
+  # =======================
+  jpa:
+    hibernate:
+      ddl-auto: create-drop   # 테스트 시마다 스키마 생성/삭제
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: true
+        show_sql: true
+    show-sql: true
+
+  # =======================
+  # Redis (mock or local)
+  # =======================
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 3000
+
+  # =======================
+  # JWT (테스트용 더미 값)
+  # =======================
+  jwt:
+    secret: ${JWT_SECRET:test-jwt-secret}
+    access:
+      expires-ms: 3600000  # 1시간
+    refresh:
+      expires-ms: 7200000  # 2시간
+
+# =======================
+# Blockchain (mock)
+# =======================
+blockchain:
+  network:
+    rpc-url: ${BLOCKCHAIN_RPC_URL:"http://localhost:8545"}
+  wallet:
+    private-key: ${SERVER_WALLET_PRIVATE_KEY:"0xTESTPRIVATEKEY"}
+  contract:
+    moas-address: ${MOAS_CONTRACT_ADDRESS:"0xTESTMOASADDRESS"}
+    forwarder-address: ${FORWARDER_CONTRACT_ADDRESS:"0xTESTFORWARDERADDRESS"}
+
+eip712:
+  domain:
+    name: "MOASContract"
+    version: "1"
+  chain-id: ${BLOCKCHAIN_CHAIN_ID:1337}
+  verifying-contract: ${MOAS_CONTRACT_ADDRESS:"0xTESTMOASADDRESS"}
+
+# =======================
+# Toss (mock)
+# =======================
+toss:
+  payments:
+    secret-key: ${TOSS_PAYMENTS_SECRET_KEY:test-toss-key}
+    api-url: ${TOSS_PAYMENTS_API_URL:https://api.test.tosspayments.com}
+
+# =======================
+# Logging
+# =======================
+logging:
+  level:
+    root: warn
+    com.s401.moas: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+# =======================
+# Server (랜덤 포트)
+# =======================
+server:
+  port: 0
+
+# =======================
+# CORS
+# =======================
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:3000
+    allowed-headers: Content-Type, Authorization
+    allowed-methods: GET, POST, PUT, DELETE, OPTIONS
+    allow-credentials: true

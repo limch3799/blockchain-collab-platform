@@ -1,0 +1,118 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.7'
+	id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.web3j' version '4.14.0'
+}
+ext {
+    springAiVersion = "1.1.0"
+}
+
+group = 'com.s401'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'me.paulschwarz:spring-dotenv:4.0.0'
+	implementation 'io.awspring.cloud:spring-cloud-aws-starter-s3:3.0.3'
+	implementation 'software.amazon.awssdk:s3:2.21.29'
+	implementation 'net.coobird:thumbnailator:0.4.19'
+	implementation 'org.sejda.imageio:webp-imageio:0.1.6'
+	implementation 'org.springframework.boot:spring-boot-starter-validation:3.4.1'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
+	implementation 'net.logstash.logback:logstash-logback-encoder:7.4'
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+	implementation 'org.springframework.retry:spring-retry'
+
+	// ===== 우리 서비스용 Access JWT 발급/검증 =====
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
+    runtimeOnly   'io.jsonwebtoken:jjwt-impl:0.12.5'
+	runtimeOnly   'io.jsonwebtoken:jjwt-jackson:0.12.5'
+
+	// ===== Web3Auth OIDC id_token 서명/JWKS 검증 =====
+	implementation 'com.nimbusds:nimbus-jose-jwt:9.37'
+
+    // ==== Smart Contract 상호작용 Web3 ====
+    implementation 'org.web3j:core:4.14.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+	implementation 'org.java-websocket:Java-WebSocket'
+
+    compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// ===== Refresh Token Redis 설정 =====
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	testImplementation 'com.h2database:h2'
+	testImplementation 'me.paulschwarz:spring-dotenv:4.0.0'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
+
+    // ==== QDrant Vector DB ====
+    implementation "io.qdrant:client:1.15.0"
+
+    // gRPC BOM으로 버전 정렬
+    implementation platform("io.grpc:grpc-bom:1.64.0")
+    implementation "io.grpc:grpc-netty-shaded"  // Transport (Netty)
+    implementation "io.grpc:grpc-stub"
+    implementation "io.grpc:grpc-protobuf"
+
+    implementation "org.springframework.boot:spring-boot-starter-webflux"
+}
+
+sourceSets {
+    main {
+        solidity {
+            srcDirs = [
+                    'src/main/solidity',
+                    'node_modules'
+            ]
+        }
+    }
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+web3j {
+    generatedPackageName = 'com.s401.moas.blockchain.wrapper'
+    solidity {
+        version = '0.8.26'
+    }
+}
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.ai:spring-ai-bom:$springAiVersion"
+    }
+}
+
+project.afterEvaluate {
+    tasks.named('generateContractWrappers') {
+        dependsOn tasks.named('processResources')
+    }
+}

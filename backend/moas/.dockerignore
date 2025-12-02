@@ -1,0 +1,24 @@
+# 빌드 산출물
+build
+target
+*.jar
+*.war
+
+# 로그
+*.log
+logs/
+
+# IDE
+.idea
+.vscode
+*.iml
+.DS_Store
+
+# Git
+.git
+.gitignore
+
+# 기타
+README.md
+.env.local
+node_modules

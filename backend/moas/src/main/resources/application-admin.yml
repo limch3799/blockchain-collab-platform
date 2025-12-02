@@ -1,0 +1,65 @@
+spring:
+  config:
+    activate:
+      on-profile: admin
+
+  # 데이터베이스 설정 (RDS - prod와 동일)
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  # JPA 설정 (update - 스키마 변경 가능)
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        show_sql: true
+    show-sql: true
+
+  # JWT 설정 (관리자용 - 긴 만료시간)
+  jwt:
+    secret: ${JWT_SECRET}
+    access:
+      expires-ms: 2592000000 # 30일
+    refresh:
+      expires-ms: 2592000000 # 30일
+
+# CORS 설정 (관리자용)
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:3000
+      - http://localhost:5173
+      - http://localhost:5174
+      - http://54.180.99.55
+    allowed-headers: [Content-Type, Authorization, X-CSRF-Token]
+    allowed-methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+    allow-credentials: true
+  metadata:
+    base-uri: http://54.180.99.55/admin/api/metadata
+
+# Swagger 설정 추가!
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    try-it-out-enabled: true
+
+# 로깅
+logging:
+  level:
+    root: info
+    com.s401.moas: debug
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace

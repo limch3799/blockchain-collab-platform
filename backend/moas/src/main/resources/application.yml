@@ -1,0 +1,124 @@
+log:
+  path: /logs
+
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 110MB
+
+  cloud:
+    aws:
+      credentials:
+        access-key: ${AWS_S3_ACCESS_KEY}
+        secret-key: ${AWS_S3_SECRET_KEY}
+      region:
+        static: ap-northeast-2
+      stack:
+        auto: false
+      s3:
+        bucket: ${AWS_S3_BUCKET_NAME}
+
+  # Redis 공통 설정
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+      password: ${REDIS_PASSWORD}
+      timeout: 3000
+
+  # JWT 기본 구조 (각 프로파일에서 expires-ms 오버라이드)
+  jwt:
+    secret: ${JWT_SECRET}
+
+# 파일 업로드 제한
+portfolio:
+  file:
+    max-images: 10
+    max-image-size: 10485760 # 10MB
+    max-total-file-size: 104857600 # 100MB
+    allowed-image-types: image/jpeg,image/png,image/gif,image/webp
+
+inquiry:
+  file:
+    max-files: 10
+    max-file-size: 10485760
+    max-total-size: 104857600
+
+chat:
+  file:
+    max-files: 10
+    max-file-size: 10485760
+    max-total-size: 104857600
+
+# Web3Auth
+web3auth:
+  issuer: https://api-auth.web3auth.io
+  audience: ${WEB3AUTH_AUDIENCE}
+
+# Swagger
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
+    try-it-out-enabled: true
+
+# LLM (GMS) 설정
+llm:
+  gms:
+    api-key: ${GMS_KEY}
+    model: gpt-4.1
+    api-url: https://gms.ssafy.io/gmsapi/api.openai.com/v1/chat/completions
+  max-retries: 2
+  timeout:
+    connect: 10000
+    read: 60000
+
+# Qdrant 설정
+qdrant:
+  host: k13s401.p.ssafy.io
+  port: 6334
+  api-key: ${QDRANT_API_KEY}
+
+# Embedding 설정
+embedding:
+  url: http://k13s401.p.ssafy.io:11434/api/embeddings
+
+# Blockchain 공통 설정
+blockchain:
+  network:
+    rpc-url: ${BLOCKCHAIN_RPC_URL}
+    ws-url: ${BLOCKCHAIN_WS_URL}
+  wallet:
+    private-key: ${SERVER_WALLET_PRIVATE_KEY}
+  contract:
+    moas-address: ${MOAS_CONTRACT_ADDRESS}
+  scan:
+    base-url: "https://11155111.testnet.routescan.io"
+
+# EIP712 설정
+eip712:
+  domain:
+    name: "MOASContract"
+    version: "1"
+  chain-id: ${BLOCKCHAIN_CHAIN_ID}
+  verifying-contract: ${MOAS_CONTRACT_ADDRESS}
+
+# Toss Payments
+toss:
+  payments:
+    secret-key: ${TOSS_PAYMENTS_SECRET_KEY}
+    api-url: ${TOSS_PAYMENTS_API_URL}
+
+# 암호화 설정
+app:
+  encryption:
+    account-key: ${ACCOUNT_ENCRYPTION_KEY}

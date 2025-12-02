@@ -1,0 +1,325 @@
+@import "tailwindcss";
+
+html {
+  overflow-y: scroll; /* 항상 수직 스크롤바 확보 */
+}
+
+body {
+  font-family: var(--font-pretendard);
+}
+
+
+@theme {
+  /* 폰트 패밀리 */
+  --font-pretendard: "Pretendard", -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+
+  /* 브랜드 컬러 */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-yellow: #FFC952;
+  
+  --color-secondary-500: #a855f7;
+  --color-secondary-600: #9333ea;
+  
+  --color-brand-blue: #3b82f6;
+  --color-brand-purple: #9333ea;
+  --color-brand-pink: #ec4899;
+  
+  /* MOAS 컬러 - color- 접두사 추가! */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: #3b82f6;
+
+  --color-moas-main: #FFC952;
+  --color-moas-leader: #47B8E0;
+  --color-moas-artist: #FF7473;
+  --color-moas-navy: #34314C;
+  --color-moas-white: #F8F8F8;
+  --color-moas-black: #2B2B2B;
+  --color-moas-text: #111111;
+  --color-moas-navy2: #1C1E29;
+
+  --color-moas-error: #E91A27;
+  --color-moas-error-bg: #FFEFEF;
+  --color-moas-state-1: #258E93;
+  --color-moas-state-1-bg: #E4FFFA;
+  --color-moas-state-2: #F16B1B;
+  --color-moas-state-2-bg: #FFF3DD;
+  --color-moas-state-3: #7444E3;
+  --color-moas-state-3-bg: #F8F8FF;
+
+  --color-moas-gray-1: #F2F3F5;
+  --color-moas-gray-2: #EAEAEC;
+  --color-moas-gray-3: #D9D9D9;
+  --color-moas-gray-4: #BFC1C5;
+  --color-moas-gray-5: #AAACB1;
+  --color-moas-gray-6: #95989E;
+  --color-moas-gray-7: #77797E;
+  --color-moas-gray-8: #595B5F;
+  --color-moas-gray-9: #3C3C3F;
+
+  --color-moas-portfolio-1: #FFF8B6;
+  --color-moas-portfolio-2: #D78241;
+  --color-moas-portfolio-3: #DEAF8A;
+
+  --color-moas-banner2-1: #3BAFE4;
+  --color-moas-banner2-2: #266E8F;
+
+}
+
+/* Pretendard 폰트 - font-family를 모두 "Pretendard"로 통일 */
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 100;
+  font-style: normal;
+  src: url("/fonts/Pretendard-Thin.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 200;
+  font-style: normal;
+  src: url("/fonts/Pretendard-ExtraLight.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 300;
+  font-style: normal;
+  src: url("/fonts/Pretendard-Light.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 400;
+  font-style: normal;
+  src: url("/fonts/Pretendard-Regular.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 500;
+  font-style: normal;
+  src: url("/fonts/Pretendard-Medium.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 600;
+  font-style: normal;
+  src: url("/fonts/Pretendard-SemiBold.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  font-style: normal;
+  src: url("/fonts/Pretendard-Bold.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 800;
+  font-style: normal;
+  src: url("/fonts/Pretendard-ExtraBold.otf") format("opentype");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 900;
+  font-style: normal;
+  src: url("/fonts/Pretendard-Black.otf") format("opentype");
+  font-display: swap;
+}
+
+
+:root {
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.145 0 0);
+  
+  --primary: oklch(0.533 0.197 254);
+  --primary-foreground: oklch(1 0 0);
+  
+  --secondary: oklch(0.716 0.112 302);
+  --secondary-foreground: oklch(1 0 0);
+  
+  --muted: oklch(0.961 0.008 256);
+  --muted-foreground: oklch(0.521 0 0);
+  
+  --accent: oklch(0.941 0.031 302);
+  --accent-foreground: oklch(0.205 0 0);
+  
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0.008 256);
+  --input: oklch(0.922 0.008 256);
+  --ring: oklch(0.533 0.197 254);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --primary: oklch(0.633 0.197 254);
+  --primary-foreground: oklch(1 0 0);
+  --animation-shake: shake 0.5s ease-in-out;
+}
+
+/* Shake animation for validation errors */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* src/index.css에 추가 */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Hologram effect for AI assistant button */
+@keyframes hologram-sweep {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.hologram-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.1) 25%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.1) 75%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: hologram-sweep 3s linear infinite;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0.6;
+}
+
+.hologram-rainbow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 0, 150, 0.1) 0%,
+    rgba(0, 255, 255, 0.1) 25%,
+    rgba(150, 255, 0, 0.1) 50%,
+    rgba(255, 200, 0, 0.1) 75%,
+    rgba(255, 0, 150, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: hologram-sweep 4s linear infinite;
+  pointer-events: none;
+  border-radius: inherit;
+  mix-blend-mode: overlay;
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Fade in animation for tab transitions */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Slide in animation for tab underline - Left to Right */
+@keyframes slideInLeft {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.3s ease-out;
+  transform-origin: left;
+}
+
+/* Slide in animation for tab underline - Right to Left */
+@keyframes slideInRight {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.3s ease-out;
+  transform-origin: right;
+}

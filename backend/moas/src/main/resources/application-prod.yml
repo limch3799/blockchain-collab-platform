@@ -1,0 +1,52 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  # 데이터베이스 설정 (RDS)
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+
+  # JPA 설정 (프로덕션 - validate)
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+        show_sql: false
+    show-sql: false
+
+  # JWT 설정 (프로덕션 - 짧은 만료시간)
+  jwt:
+    secret: ${JWT_SECRET}
+    access:
+      expires-ms: 3600000 # 1시간
+    refresh:
+      expires-ms: 1209600000 # 14일
+
+# CORS 설정 (프로덕션용)
+app:
+  cors:
+    allowed-origins:
+      - https://k13s401.p.ssafy.io
+    allowed-headers: [Content-Type, Authorization, X-CSRF-Token]
+    allowed-methods: [GET, POST, PUT, PATCH, DELETE, OPTIONS]
+    allow-credentials: true
+  metadata:
+    base-uri: https://k13s401.p.ssafy.io/api/metadata
+
+# 로깅 (프로덕션 - 간결하게)
+logging:
+  level:
+    root: info
+    com.s401.moas: info
+    org.hibernate.SQL: warn

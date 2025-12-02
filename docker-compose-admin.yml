@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend/moas
+    container_name: moas-backend-admin
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      - SPRING_PROFILES_ACTIVE=admin
+      - SPRING_DATA_REDIS_HOST=moas-redis
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASSWORD}
+    volumes:
+      - ./backend-logs:/logs
+    depends_on:
+      - redis
+    networks:
+      - moas-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend/moas
+      args:
+        - VITE_API_URL=http://54.180.99.55
+        - VITE_TOSS_CLIENT_KEY=${VITE_TOSS_CLIENT_KEY}
+        - VITE_WEB3_AUTH_KEY=${VITE_WEB3_AUTH_KEY}
+    container_name: moas-frontend-admin
+    ports:
+      - "8090:80"
+    depends_on:
+      - backend
+    networks:
+      - moas-network
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: moas-redis
+    ports:
+      - "127.0.0.1:6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis-data:/data
+    networks:
+      - moas-network
+    restart: unless-stopped
+
+networks:
+  moas-network:
+
+volumes:
+  redis-data:
