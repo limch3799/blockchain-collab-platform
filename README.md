@@ -89,6 +89,16 @@ SSE(Server-Sent Events) 기반으로 실시간 채팅과 알림을 제공합니�
 <br><br><br>
 
 
+## 📊 플로우차트
+![플로우차트](./images/readme/flowchart_moas.png)
+<br><br><br>
+
+
+## 🎨 와이어프레임
+![와이어프레임](./images/readme/wireframe_moas.png)
+<br><br><br>
+
+
 ## 🛠️ 기술 스택
 
 | 구분 | 기술 |
@@ -105,7 +115,6 @@ SSE(Server-Sent Events) 기반으로 실시간 채팅과 알림을 제공합니�
 | **Infra** | Docker, Docker Compose, Jenkins, Nginx |
 
 ## 📂 프로젝트 구조
-
 ```
 S13P31S401/
 ├── backend/           # Spring Boot 백엔드 API 서버
@@ -134,7 +143,6 @@ S13P31S401/
 ### 설치 및 실행
 
 #### 1. 저장소 복제
-
 ```bash
 git clone https://lab.ssafy.com/s13-final/S13P31S401.git
 cd S13P31S401
@@ -152,7 +160,6 @@ cd S13P31S401
 - `exec/moas_db_dump_20251119.sql` 파일을 사용하여 데이터베이스 테이블과 초기 데이터를 임포트합니다.
 
 #### 4. Docker Compose를 이용한 전체 서비스 실행
-
 ```bash
 docker-compose up --build -d
 ```
